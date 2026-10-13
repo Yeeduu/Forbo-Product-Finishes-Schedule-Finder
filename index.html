@@ -277,6 +277,13 @@ function siteUrl(p,s){
   if(isUrl(u))return u;
   return "https://www.forbo.com/flooring/en-au/search?q="+encodeURIComponent((stripXX(p["Range"])+" "+stripXX(p["Sub-range"])).replace(/\s+/g," ").trim());
 }
+/* When embedded in a website frame: report height so the frame can resize, and ask the page to scroll to the finder */
+var embedded=false;try{embedded=window.self!==window.top}catch(e){embedded=true}
+function postToParent(msg){if(!embedded)return;try{window.parent.postMessage(msg,"*")}catch(e){}}
+function postHeight(){postToParent({forboFinderHeight:Math.ceil(document.body.getBoundingClientRect().height)+2})}
+function toTop(){window.scrollTo({top:0,behavior:"smooth"});postToParent({forboFinderScrollTop:true})}
+if(embedded){window.addEventListener("load",postHeight);window.addEventListener("resize",postHeight);
+  try{new ResizeObserver(postHeight).observe(document.body)}catch(e){setInterval(postHeight,1000)}}
 /* ---------- status ---------- */
 var WHEN=/(Q[1-4]\s*20\d\d|(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+20\d\d|20\d\d)/i;
 function statusOf(p){
@@ -413,7 +420,7 @@ function showProduct(p,quiet,others){
     +(alts&&!alts.length?'<span class="detail">No direct alternative listed. Your Forbo representative can suggest a close match.</span>':'')
     +'</div>'
     +'<div class="disclaimer">Stock status is a guide only. Confirm with Forbo Customer Service on 1800 224 471 or info.au@forbo.com before ordering.</div>'
-    +'<div class="actions"><button class="btn" type="button" id="copyOne">Copy for finishes schedule</button><a class="btn secondary" href="'+esc(siteUrl(p,s))+'" target="_blank" rel="noopener" id="siteLink">View range on Forbo website \u2197</a><button class="btn secondary" type="button" id="addOne"'+(inSched?' disabled':'')+'>'+(inSched?'In your schedule':'Add to my schedule')+'</button></div>'
+    +'<div class="actions"><button class="btn" type="button" id="copyOne">Copy for finishes schedule</button><button class="btn secondary" type="button" id="addOne"'+(inSched?' disabled':'')+'>'+(inSched?'In your schedule':'Add to my schedule')+'</button></div>'
     +'</div></section>';
   h+='<section><div class="bar">Product information</div><div style="overflow-x:auto"><table><tbody>'+rows.map(function(r){return row(r[0],r[1])}).join("")+'</tbody></table></div></section>';
   h+='<div class="two"><section class="notes"><div class="bar grey">Additional specification notes</div>'
@@ -426,9 +433,8 @@ function showProduct(p,quiet,others){
   $("result").innerHTML=h;
   Array.prototype.forEach.call(document.querySelectorAll(".pimg"),function(im){function fail(){im.remove()}im.addEventListener("error",fail);if(im.complete&&!im.naturalWidth)fail()});
   $("copyOne").addEventListener("click",function(){var cr=rows.filter(function(r){return clean(r[1])}).concat([["Status",st.label]]);copyText(cr.map(function(r){return r[0]+": "+clean(r[1])}).join("\n"),"Copied. Paste into your schedule.",htmlTable(null,cr.map(function(r){return [r[0],clean(r[1])]}),true));track("finder_copy",{product_code:p["Product code"]})});
-  $("siteLink").addEventListener("click",function(){track("finder_view_website",{product_code:p["Product code"],collection:stripXX(p["Range"])})});
   $("addOne").addEventListener("click",function(){addSched(p);this.disabled=true;this.textContent="In your schedule"});
-  Array.prototype.forEach.call(document.querySelectorAll("[data-code]"),function(b){b.addEventListener("click",function(){$("q").value=b.dataset.code;show(b.dataset.code);window.scrollTo({top:0,behavior:"smooth"})})});
+  Array.prototype.forEach.call(document.querySelectorAll("[data-code]"),function(b){b.addEventListener("click",function(){$("q").value=b.dataset.code;show(b.dataset.code);toTop()})});
   if(others)Array.prototype.forEach.call(document.querySelectorAll("[data-other]"),function(b){b.addEventListener("click",function(){showProduct(others[+b.dataset.other],false,others)})});
   $("hint").textContent="Tip: start typing and choose from the list.";
   if(!quiet)track("finder_view_product",{product_code:p["Product code"],collection:stripXX(p["Range"]),status:st.label});
@@ -460,7 +466,7 @@ function renderSchedule(){
 }
 $("sched").addEventListener("click",function(e){
   var o=e.target.closest("[data-open]"),r=e.target.closest("[data-rm]"),l=readSched();
-  if(o){var x=l[+o.dataset.open],p=liveFor(x);if(p){$("q").value=p["Product code"];showProduct(p);window.scrollTo({top:0,behavior:"smooth"})}}
+  if(o){var x=l[+o.dataset.open],p=liveFor(x);if(p){$("q").value=p["Product code"];showProduct(p);toTop()}}
   if(r){l.splice(+r.dataset.rm,1);memSched=l;setSched(l);renderSchedule();if(current)showProduct(current,true)}
 });
 $("copySched").addEventListener("click",function(){
