@@ -43,19 +43,19 @@ h1 .light{display:block;font-weight:300;color:var(--on-dark-soft)}
 .dot{width:8px;height:8px;background:var(--ok);display:inline-block}
 .search{position:relative;display:flex;flex-direction:column;gap:8px}
 .search label{font-weight:700;font-size:14px;color:#fff}
-.field{display:flex;background:#fff;box-shadow:0 6px 18px rgba(0,0,0,.25)}
-.field input{flex:1;min-width:0;border:0;background:transparent;color:var(--fg);font:inherit;font-size:21px;padding:14px 16px}
+.field{display:flex;background:#fff;box-shadow:0 6px 18px rgba(0,0,0,.25);border-radius:999px;overflow:hidden}
+.field input{flex:1;min-width:0;border:0;background:transparent;color:var(--fg);font:inherit;font-size:21px;padding:14px 16px 14px 26px}
 .field input::placeholder{color:#8a99a6}
 .field input:focus{outline:none}
 .field:focus-within{box-shadow:0 0 0 3px #6fb2e6,0 6px 18px rgba(0,0,0,.25)}
-.field button{border:0;background:var(--blue);color:#fff;padding:0 26px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.field button{border:0;background:var(--blue);color:#fff;padding:0 28px 0 24px;display:flex;align-items:center;justify-content:center;cursor:pointer}
 .field button:hover{background:var(--blue-dk)}
 .hint{font-size:13px;color:var(--soft)}
 .hero .hint{color:var(--on-dark-soft)}
 .legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--on-dark-soft)}
 .legend span{display:inline-flex;align-items:center;gap:6px}
 .legend i{width:10px;height:10px;display:inline-block;background:var(--c)}
-.suggest{position:absolute;top:100%;left:0;right:0;z-index:5;background:#fff;color:var(--fg);border:1px solid var(--line);max-height:340px;overflow:auto;margin:0;padding:0;list-style:none;box-shadow:0 12px 28px rgba(0,0,0,.2)}
+.suggest{position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:5;background:#fff;border-radius:16px;color:var(--fg);border:1px solid var(--line);max-height:340px;overflow:auto;margin:0;padding:0;list-style:none;box-shadow:0 12px 28px rgba(0,0,0,.2)}
 .suggest li button{width:100%;display:grid;grid-template-columns:72px 1fr auto;gap:12px;align-items:center;text-align:left;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--fg);padding:9px 14px}
 .suggest li button:hover,.suggest li button[aria-selected="true"]{background:var(--info-bg)}
 .suggest .code{font-weight:700;font-variant-numeric:tabular-nums;color:var(--navy)}
@@ -82,7 +82,7 @@ h1 .light{display:block;font-weight:300;color:var(--on-dark-soft)}
 .status .detail{font-size:14px}
 .st-ok{--st:var(--ok);--st-bg:var(--ok-bg)} .st-info{--st:var(--info);--st-bg:var(--info-bg)} .st-warn{--st:var(--warn);--st-bg:var(--warn-bg)} .st-bad{--st:var(--bad);--st-bg:var(--bad-bg)}
 .alts{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:14px;margin-top:2px}
-.chip{border:1px solid var(--blue);background:#fff;color:var(--blue);padding:4px 10px;font-size:13px;font-weight:700}
+.chip{border:1px solid var(--blue);background:#fff;color:var(--blue);padding:4px 14px;border-radius:999px;font-size:13px;font-weight:700}
 .chip:hover{background:var(--blue);color:#fff}
 .chip.plain{border-color:var(--line);color:var(--soft);font-weight:400;cursor:default;background:#fff}
 .actions{display:flex;flex-wrap:wrap;gap:8px}
@@ -95,7 +95,18 @@ h1 .light{display:block;font-weight:300;color:var(--on-dark-soft)}
 .custpanel fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
 .custpanel .lay{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:14px}
 .custpanel .lay label{display:flex;align-items:center;gap:8px;cursor:pointer}
-.custpanel .opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:6px 16px}
+.custpanel .opts{columns:2;column-gap:18px}
+@media (max-width:640px){.custpanel .opts{columns:1}}
+.custpanel .opts .fld{break-inside:avoid;margin-bottom:6px;padding:2px 0;border-radius:6px}
+.custpanel .grip{cursor:grab;color:#a5b1bb;display:flex;align-items:center;padding:2px;flex-shrink:0}
+.custpanel .grip:hover{color:var(--navy)}
+.custpanel .mv{display:flex;flex-direction:column;flex-shrink:0}
+.custpanel .mv button{border:0;background:none;color:#8697a4;padding:0 3px;line-height:0;cursor:pointer;height:11px}
+.custpanel .mv button:hover:not(:disabled){color:var(--navy)}
+.custpanel .mv button:disabled{opacity:.25;cursor:default}
+.custpanel .fld.dragging{opacity:.4}
+.custpanel .fld.drop-before{box-shadow:0 -2px 0 var(--blue)}
+.custpanel .fld.drop-after{box-shadow:0 2px 0 var(--blue)}
 .custpanel .fld{display:flex;align-items:center;gap:8px}
 .custpanel .fld input[type=text]{flex:1;min-width:0;border:1px solid var(--line);padding:4px 7px;font:inherit;font-size:13.5px;color:var(--fg)}
 .custpanel .fld input[type=text]:focus{outline:2px solid #6fb2e6;outline-offset:0;border-color:var(--blue)}
@@ -107,7 +118,7 @@ h1 .light{display:block;font-weight:300;color:var(--on-dark-soft)}
 .cprev{border:1px dashed #a5b1bb;background:#fafbfc;padding:10px;max-height:340px;overflow:auto}
 .cprev table{border-collapse:collapse}.cprev img{width:80px;height:80px;object-fit:cover}
 .cprev .pnote{font-size:12px;color:var(--soft);margin-top:6px}
-.btn{border:2px solid var(--blue);background:var(--blue);color:#fff;font-weight:700;padding:8px 16px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;line-height:1.2}
+.btn{border-radius:999px;border:2px solid var(--blue);background:var(--blue);color:#fff;font-weight:700;padding:8px 16px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;line-height:1.2}
 .btn:hover:not(:disabled){background:var(--blue-dk);border-color:var(--blue-dk);color:#fff}
 .btn.secondary{background:#fff;color:var(--navy);border-color:var(--navy)}
 .btn.secondary:hover:not(:disabled){background:var(--tint);color:var(--navy);border-color:var(--navy)}
@@ -152,7 +163,7 @@ td.missing{color:var(--soft);font-style:italic}
 .pill::before{content:"";width:8px;height:8px;background:var(--st);flex-shrink:0}
 .changed{grid-column:1/-1;font-size:13px;padding:6px 8px;background:var(--warn-bg);color:var(--fg)}
 .rm{grid-column:1/-1;justify-self:start;border:0;background:none;color:var(--soft);font-size:12px;padding:0;text-decoration:underline}
-.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 20px);transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 16px;font-weight:700;font-size:14px;z-index:10;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.toast{border-radius:999px;position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 20px);transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 16px;font-weight:700;font-size:14px;z-index:10;box-shadow:0 6px 18px rgba(0,0,0,.25)}
 .foot{border-top:3px solid var(--navy);padding-top:14px;font-size:13px;color:var(--soft);display:flex;flex-direction:column;gap:8px}
 .foot .disc{color:var(--fg)}
 .foot .tag{font-weight:600;color:var(--navy);font-size:15px}
@@ -308,15 +319,18 @@ var FIELDS=["Manufacturer","Type","Collection","Colour code","Colour name","Thic
 var EXTRAS=["Installation","Joints","Warranty","Lead time"];
 var memCfg=null;
 function cfg(){if(memCfg)return memCfg;var c={};try{c=JSON.parse(localStorage.getItem(CKEY)||"{}")||{}}catch(e){}
-  memCfg={off:c.off||[],extra:c.extra||[],names:c.names||{},labels:c.labels!==false,format:c.format==="list"?"list":"table",image:c.image!==false};return memCfg}
+  memCfg={off:c.off||[],extra:c.extra||[],names:c.names||{},labels:c.labels!==false,format:c.format==="list"?"list":"table",image:c.image!==false,order:normOrder(c.order)};return memCfg}
+function normOrder(o){var all=FIELDS.concat(EXTRAS),r=(Array.isArray(o)?o:[]).filter(function(f,i,a){return all.indexOf(f)>=0&&a.indexOf(f)===i});all.forEach(function(f){if(r.indexOf(f)<0)r.push(f)});return r}
+function isDefaultOrder(){var all=FIELDS.concat(EXTRAS),o=cfg().order;return all.every(function(f,i){return o[i]===f})}
 function saveCfg(){try{localStorage.setItem(CKEY,JSON.stringify(memCfg))}catch(e){}}
 function isOn(f){var c=cfg();return EXTRAS.indexOf(f)>=0?c.extra.indexOf(f)>=0:c.off.indexOf(f)<0}
 function nameOf(f){var n=cfg().names[f];return n&&n.trim()?n.trim():f}
-function isDefault(){var c=cfg();return !c.off.length&&!c.extra.length&&!Object.keys(c.names).some(function(k){return c.names[k]&&c.names[k].trim()})&&c.labels&&c.format==="table"&&c.image}
+function isDefault(){var c=cfg();return !c.off.length&&!c.extra.length&&!Object.keys(c.names).some(function(k){return c.names[k]&&c.names[k].trim()})&&c.labels&&c.format==="table"&&c.image&&isDefaultOrder()}
 function leadTime(p){var st=statusOf(p);if(st.sev==="ok")return LEAD_NOTE;if(st.sev==="info")return clean(p["AU stock"])||st.detail;return ""}
 function copyRows(p){
   var s=specFor(p), g=function(k){return s?clean(s[k]):""};
   var all=infoRows(p,s).map(function(r){return [r[0],clean(r[1])]}).concat([["Status",statusOf(p).label],["Installation",INSTALL_NOTE],["Joints",g("Joints")],["Warranty",g("Warranty")],["Lead time",leadTime(p)]]);
+  var o=cfg().order;all.sort(function(a,b){return o.indexOf(a[0])-o.indexOf(b[0])});
   return all.filter(function(r){return r[1]&&isOn(r[0])}).map(function(r){return [nameOf(r[0]),r[1]]});
 }
 function copyHtml(products){
@@ -526,7 +540,7 @@ function infoRows(p,s){
 }
 function custHtml(){
   var c=cfg();
-  function fld(f){var on=isOn(f);return '<div class="fld'+(on?'':' off')+'"><input type="checkbox" data-f="'+esc(f)+'" aria-label="Include '+esc(f)+'"'+(on?' checked':'')+'><input type="text" data-n="'+esc(f)+'" value="'+esc(c.names[f]||f)+'" placeholder="'+esc(f)+'" aria-label="Label for '+esc(f)+'"></div>'}
+  function fld(f,idx,arr){var on=isOn(f);return '<div class="fld'+(on?'':' off')+'" data-k="'+esc(f)+'"><span class="grip" title="Drag to reorder" aria-hidden="true"><svg width="10" height="16" viewBox="0 0 10 16" aria-hidden="true"><g fill="currentColor"><circle cx="2.5" cy="3" r="1.4"/><circle cx="7.5" cy="3" r="1.4"/><circle cx="2.5" cy="8" r="1.4"/><circle cx="7.5" cy="8" r="1.4"/><circle cx="2.5" cy="13" r="1.4"/><circle cx="7.5" cy="13" r="1.4"/></g></svg></span><input type="checkbox" data-f="'+esc(f)+'" aria-label="Include '+esc(f)+'"'+(on?' checked':'')+'><input type="text" data-n="'+esc(f)+'" value="'+esc(c.names[f]||f)+'" placeholder="'+esc(f)+'" aria-label="Label for '+esc(f)+'"><span class="mv"><button type="button" data-up="'+esc(f)+'" aria-label="Move '+esc(f)+' up"'+(idx===0?' disabled':'')+'><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button><button type="button" data-dn="'+esc(f)+'" aria-label="Move '+esc(f)+' down"'+(idx===arr.length-1?' disabled':'')+'><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></span></div>'}
   return '<div class="custom"><button type="button" class="linkbtn" id="custToggle" aria-expanded="'+(custOpen?'true':'false')+'" aria-controls="custPanel"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>Customise what you copy</button> <span class="small-note" id="custState" style="font-size:13px;color:var(--soft)">'+(isDefault()?'':'(custom settings on)')+'</span>'
   +'<div class="custpanel" id="custPanel"'+(custOpen?'':' hidden')+'>'
   +'<fieldset><h3>Layout</h3><div class="lay">'
@@ -534,11 +548,10 @@ function custHtml(){
   +'<label><input type="radio" name="cfmt" value="list"'+(c.format==="list"?' checked':'')+'>List in one cell</label>'
   +'<label><input type="checkbox" id="cLabels"'+(c.labels?' checked':'')+'>Show labels</label>'
   +'<label><input type="checkbox" id="cImage"'+(c.image?' checked':'')+'>Include product image</label></div></fieldset>'
-  +'<fieldset><h3>Details <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--soft)">Tick to include. Click a label to rename it.</span></h3><div class="opts">'+FIELDS.map(fld).join("")+'</div></fieldset>'
-  +'<fieldset><h3>Specification notes</h3><div class="opts">'+EXTRAS.map(fld).join("")+'</div></fieldset>'
+  +'<fieldset><h3>Details and notes <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--soft)">Tick to include, click a label to rename, drag or use the arrows to reorder.</span></h3><div class="opts" id="custList">'+c.order.map(fld).join("")+'</div></fieldset>'
   +'<fieldset><h3>Preview</h3><div class="cprev" id="custPrev" aria-live="polite"></div><div class="pnote" style="font-size:12px;color:var(--soft)">This is how the current product will paste. Copy all products uses the same layout.</div></fieldset>'
   +'<div class="row"><button type="button" class="linkbtn" id="custAll" style="font-size:13px">Select all</button><button type="button" class="linkbtn" id="custNone" style="font-size:13px">Clear all</button><button type="button" class="linkbtn" id="custReset" style="font-size:13px">Reset to default</button></div>'
-  +'<p class="explain">Every finishes schedule is set up differently. Untick the details you don’t need, type over any label to match your template (for example, change Collection to Product name), and choose a table or a single-cell list. Add installation, joints, warranty or lead time notes if your schedule includes them. Your settings apply to both copy buttons and are saved on this device.</p>'
+  +'<p class="explain">Every finishes schedule is set up differently. Untick the details you don’t need, type over any label to match your template (for example, change Collection to Product name), put them in the order your schedule uses, and choose a table or a single-cell list. Add installation, joints, warranty or lead time notes if your schedule includes them. Your settings apply to both copy buttons and are saved on this device.</p>'
   +'</div></div>';
 }
 function bindCust(){
@@ -553,9 +566,23 @@ function bindCust(){
   $("cLabels").addEventListener("change",function(){c.labels=this.checked;changed("labels",this.checked)});
   $("cImage").addEventListener("change",function(){c.image=this.checked;changed("image",this.checked)});
   function redraw(){if(current)showProduct(current,true)}
+  function moveTo(f,to){var o=c.order,i=o.indexOf(f);if(i<0)return;o.splice(i,1);to=Math.max(0,Math.min(o.length,to));o.splice(to,0,f);saveCfg();track("finder_customise_output",{setting:"order",value:f});redraw()}
+  Array.prototype.forEach.call(document.querySelectorAll("[data-up]"),function(b){b.addEventListener("click",function(){var f=b.dataset.up;moveTo(f,c.order.indexOf(f)-1);var n=document.querySelector('[data-up="'+f+'"]');if(n&&!n.disabled)n.focus()})});
+  Array.prototype.forEach.call(document.querySelectorAll("[data-dn]"),function(b){b.addEventListener("click",function(){var f=b.dataset.dn;moveTo(f,c.order.indexOf(f)+1);var n=document.querySelector('[data-dn="'+f+'"]');if(n&&!n.disabled)n.focus()})});
+  var dragK=null;
+  Array.prototype.forEach.call(document.querySelectorAll("#custList .fld"),function(row){
+    var grip=row.querySelector(".grip");
+    grip.addEventListener("mousedown",function(){row.draggable=true});
+    grip.addEventListener("touchstart",function(){row.draggable=true},{passive:true});
+    row.addEventListener("dragstart",function(e){dragK=row.dataset.k;row.classList.add("dragging");try{e.dataTransfer.effectAllowed="move";e.dataTransfer.setData("text/plain",dragK)}catch(x){}});
+    row.addEventListener("dragend",function(){row.draggable=false;row.classList.remove("dragging");dragK=null;Array.prototype.forEach.call(document.querySelectorAll(".drop-before,.drop-after"),function(x){x.classList.remove("drop-before","drop-after")})});
+    row.addEventListener("dragover",function(e){if(!dragK||dragK===row.dataset.k)return;e.preventDefault();var r=row.getBoundingClientRect(),after=e.clientY>r.top+r.height/2;row.classList.toggle("drop-after",after);row.classList.toggle("drop-before",!after)});
+    row.addEventListener("dragleave",function(){row.classList.remove("drop-before","drop-after")});
+    row.addEventListener("drop",function(e){e.preventDefault();if(!dragK||dragK===row.dataset.k)return;var after=row.classList.contains("drop-after"),o=c.order,from=o.indexOf(dragK),t=o.indexOf(row.dataset.k)+(after?1:0);if(from<t)t--;var k=dragK;dragK=null;moveTo(k,t)});
+  });
   $("custAll").addEventListener("click",function(){c.off=[];c.extra=EXTRAS.slice();saveCfg();renderCustNote();redraw()});
   $("custNone").addEventListener("click",function(){c.off=FIELDS.slice();c.extra=[];saveCfg();renderCustNote();redraw()});
-  $("custReset").addEventListener("click",function(){memCfg={off:[],extra:[],names:{},labels:true,format:"table",image:true};saveCfg();renderCustNote();redraw()});
+  $("custReset").addEventListener("click",function(){memCfg={off:[],extra:[],names:{},labels:true,format:"table",image:true,order:normOrder([])};saveCfg();renderCustNote();redraw()});
   updatePreview();
 }
 function updatePreview(){var el=$("custPrev");if(!el||!current)return;el.innerHTML=copyHtml([current])}
