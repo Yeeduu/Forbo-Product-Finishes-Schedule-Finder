@@ -95,9 +95,11 @@ h1 .light{display:block;font-weight:300;color:var(--on-dark-soft)}
 .custpanel fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
 .custpanel .lay{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:14px}
 .custpanel .lay label{display:flex;align-items:center;gap:8px;cursor:pointer}
-.custpanel .opts{columns:2;column-gap:18px}
-@media (max-width:640px){.custpanel .opts{columns:1}}
-.custpanel .opts .fld{break-inside:avoid;margin-bottom:6px;padding:2px 0;border-radius:6px}
+.custpanel .opts{display:grid;grid-auto-flow:column;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:18px;row-gap:6px}
+@media (max-width:640px){.custpanel .opts{grid-auto-flow:row;grid-template-columns:minmax(0,1fr);grid-template-rows:none!important}}
+@media (min-width:901px) and (max-width:1000px){.custpanel .opts{grid-auto-flow:row;grid-template-columns:minmax(0,1fr);grid-template-rows:none!important}}
+.custpanel .opts .fld{padding:2px 0;border-radius:6px;min-width:0;max-width:100%}
+.custpanel{min-width:0;overflow:hidden}
 .custpanel .grip{cursor:grab;color:#a5b1bb;display:flex;align-items:center;padding:2px;flex-shrink:0}
 .custpanel .grip:hover{color:var(--navy)}
 .custpanel .mv{display:flex;flex-direction:column;flex-shrink:0}
@@ -108,7 +110,7 @@ h1 .light{display:block;font-weight:300;color:var(--on-dark-soft)}
 .custpanel .fld.drop-before{box-shadow:0 -2px 0 var(--blue)}
 .custpanel .fld.drop-after{box-shadow:0 2px 0 var(--blue)}
 .custpanel .fld{display:flex;align-items:center;gap:8px}
-.custpanel .fld input[type=text]{flex:1;min-width:0;border:1px solid var(--line);padding:4px 7px;font:inherit;font-size:13.5px;color:var(--fg)}
+.custpanel .fld input[type=text]{flex:1 1 0;width:0;min-width:0;border:1px solid var(--line);padding:4px 7px;font:inherit;font-size:13.5px;color:var(--fg)}
 .custpanel .fld input[type=text]:focus{outline:2px solid #6fb2e6;outline-offset:0;border-color:var(--blue)}
 .custpanel .fld.off input[type=text]{color:#a5b1bb;background:#f5f7f8}
 .custpanel input[type=checkbox],.custpanel input[type=radio]{width:16px;height:16px;accent-color:var(--blue);margin:0;flex-shrink:0}
@@ -548,7 +550,7 @@ function custHtml(){
   +'<label><input type="radio" name="cfmt" value="list"'+(c.format==="list"?' checked':'')+'>List in one cell</label>'
   +'<label><input type="checkbox" id="cLabels"'+(c.labels?' checked':'')+'>Show labels</label>'
   +'<label><input type="checkbox" id="cImage"'+(c.image?' checked':'')+'>Include product image</label></div></fieldset>'
-  +'<fieldset><h3>Details and notes <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--soft)">Tick to include, click a label to rename, drag or use the arrows to reorder.</span></h3><div class="opts" id="custList">'+c.order.map(fld).join("")+'</div></fieldset>'
+  +'<fieldset><h3>Details and notes <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--soft)">Tick to include, click a label to rename, drag or use the arrows to reorder.</span></h3><div class="opts" id="custList" style="grid-template-rows:repeat('+Math.ceil(c.order.length/2)+',auto)">'+c.order.map(fld).join("")+'</div></fieldset>'
   +'<fieldset><h3>Preview</h3><div class="cprev" id="custPrev" aria-live="polite"></div><div class="pnote" style="font-size:12px;color:var(--soft)">This is how the current product will paste. Copy all products uses the same layout.</div></fieldset>'
   +'<div class="row"><button type="button" class="linkbtn" id="custAll" style="font-size:13px">Select all</button><button type="button" class="linkbtn" id="custNone" style="font-size:13px">Clear all</button><button type="button" class="linkbtn" id="custReset" style="font-size:13px">Reset to default</button></div>'
   +'<p class="explain">Every finishes schedule is set up differently. Untick the details you don’t need, type over any label to match your template (for example, change Collection to Product name), put them in the order your schedule uses, and choose a table or a single-cell list. Add installation, joints, warranty or lead time notes if your schedule includes them. Your settings apply to both copy buttons and are saved on this device.</p>'
